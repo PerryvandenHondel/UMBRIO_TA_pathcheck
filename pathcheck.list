@@ -5,3 +5,4 @@
 /var/log/auth.log
 /home/perry/*.bak
 /tmp/pathcheck.log
+/opt/splunk/var/log/splunk/*.log
