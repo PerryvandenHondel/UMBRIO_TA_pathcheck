@@ -1,0 +1,7 @@
+/var/log/syslog
+/var/log/odcn_ssh.log
+/var/log/dummy.doc
+/tmp/dummy/*.log
+/var/log/auth.log
+/home/perry/*.bak
+/tmp/pathcheck.log
