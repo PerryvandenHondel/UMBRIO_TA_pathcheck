@@ -11,6 +11,7 @@ program PathCheck;
 {$MODE ObjFPC}
 {$H+}
 
+
 uses
     SysUtils;
 
@@ -19,24 +20,6 @@ function GetTempOutput(): string;
 begin
     GetTempOutput := '/tmp/pathcheck.log';
 end; { function GetTempOutput() }
-
-
-function FileExistsWildcard(const FileName: string): Boolean;
-{
-    Find files based on wildcards function
-    Source: https://stackoverflow.com/questions/23132072/how-to-test-using-wildcards-whether-a-file-exists-in-inno-setup
-}
-var
-  FindRec: TSearchRec;
-begin
-  Result := False;
-  if FindFirst(FileName, faAnyFile, FindRec) = 0 then
-  try
-    Result := FindRec.Attr and faDirectory = 0;
-  finally
-    FindClose(FindRec);
-  end;
-end;
 
 
 function GetCurrentDateTimeMicro(): AnsiString;
@@ -59,14 +42,11 @@ function GetDirectory(p: AnsiString): AnsiString;
 {
     Returns the directory based on the path
 
-    /tmp/file.ext --> /tmp
+    /tmp/file.ext --> /tmp/
 }
 begin
-    writeln(LastDelimiter('/', p));
     Result := Copy(p, 1, LastDelimiter('/', p));
 end;
-
-
 
 
 procedure WriteToLog(var f: TextFile; s: AnsiString);
@@ -94,7 +74,7 @@ begin
     if FindFirst(line, faAnyFile-faDirectory, rec) = 0 then
     begin
         repeat
-            writeln(rec.Name);
+            //writeln(rec.Name);
             WriteToLog(fo, 'template="' + line + '" file_name="' + rec.Name + '" path="' + GetDirectory(line) + rec.Name + '" file_size_bytes=' + IntToStr(rec.Size) + ' status="FOUND"');
         until FindNext(rec) <> 0;
         FindClose(rec);
@@ -102,9 +82,6 @@ begin
     else
         WriteToLog(fo, 'template="' + line + '" status="NOT_FOUND"');
 end; { procedure ProcessLine() }
-
-
-
 
 
 procedure ProgInit();
@@ -135,9 +112,6 @@ begin
     begin
         ReadLn(fi, line);
         ProcessLine(fo, line);
-        //writeln(ProcessEntry(line));
-        //WriteToLog(fo, 'text');
-        //writeln(fo, ProcessEntry(line));
     end;
     CloseFile(fi);
     CloseFile(fo);
