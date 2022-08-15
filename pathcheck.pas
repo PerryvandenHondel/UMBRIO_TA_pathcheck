@@ -13,6 +13,7 @@ program PathCheck;
 
 
 uses
+    DateUtils,
     SysUtils;
 
 
@@ -75,7 +76,7 @@ begin
     begin
         repeat
             //writeln(rec.Name);
-            WriteToLog(fo, 'template="' + line + '" file_name="' + rec.Name + '" path="' + GetDirectory(line) + rec.Name + '" file_size_bytes=' + IntToStr(rec.Size) + ' status="FOUND"');
+            WriteToLog(fo, 'template="' + line + '" file_name="' + rec.Name + '" path="' + GetDirectory(line) + rec.Name + '" file_size_bytes=' + IntToStr(rec.Size) + ' datetime_last_modified=' + IntToStr(rec.Time) + ' status="FOUND"');
         until FindNext(rec) <> 0;
         FindClose(rec);
     end
